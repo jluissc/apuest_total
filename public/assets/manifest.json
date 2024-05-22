@@ -1,0 +1,103 @@
+{
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-003f1154.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-faae6fc0.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-7d81a1a7.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-9169d8be.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-cea79b34.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-886c8611.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility-455e8e72.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-335fd7d9.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-a9fa71e8.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/images/auth/bgimage.jpg": {
+    "file": "assets/bgimage-cd2ea700.jpg",
+    "src": "resources/images/auth/bgimage.jpg"
+  },
+  "resources/images/favicon-new.png": {
+    "file": "assets/favicon-new-c664b2cf.png",
+    "src": "resources/images/favicon-new.png"
+  },
+  "resources/images/favicon.ico": {
+    "file": "assets/favicon-19bbfc70.ico",
+    "src": "resources/images/favicon.ico"
+  },
+  "resources/images/favicon.png": {
+    "file": "assets/favicon-fb35920a.png",
+    "src": "resources/images/favicon.png"
+  },
+  "resources/images/icons/icon-dropdown.png": {
+    "file": "assets/icon-dropdown-7221d232.png",
+    "src": "resources/images/icons/icon-dropdown.png"
+  },
+  "resources/images/icons/icon-search.svg": {
+    "file": "assets/icon-search-4a27014d.svg",
+    "src": "resources/images/icons/icon-search.svg"
+  },
+  "resources/images/logo/isotipo.png": {
+    "file": "assets/isotipo-890a8ff4.png",
+    "src": "resources/images/logo/isotipo.png"
+  },
+  "resources/images/logo/logo-gray.png": {
+    "file": "assets/logo-gray-e3535e46.png",
+    "src": "resources/images/logo/logo-gray.png"
+  },
+  "resources/images/logo/logo-white.png": {
+    "file": "assets/logo-white-d5116629.png",
+    "src": "resources/images/logo/logo-white.png"
+  },
+  "resources/images/logo/logo-with-gray.png": {
+    "file": "assets/logo-with-gray-d1b92003.png",
+    "src": "resources/images/logo/logo-with-gray.png"
+  },
+  "resources/images/logo/logo.png": {
+    "file": "assets/logo-61f84bf7.png",
+    "src": "resources/images/logo/logo.png"
+  },
+  "resources/images/logo/logo2.png": {
+    "file": "assets/logo2-226fe1f4.png",
+    "src": "resources/images/logo/logo2.png"
+  },
+  "resources/images/users/user.png": {
+    "file": "assets/user-d75c6283.png",
+    "src": "resources/images/users/user.png"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-ccf187d2.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-ccf187d2.css"
+    ],
+    "file": "assets/app-0e4f4339.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
