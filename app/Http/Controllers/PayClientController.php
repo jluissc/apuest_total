@@ -90,6 +90,7 @@ class PayClientController extends Controller
     
     public function edit(ClientPay $deposito)
     {
+        dd($deposito);
         return view('deposito_edit', compact('deposito'));
     }
     

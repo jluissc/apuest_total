@@ -56,8 +56,6 @@ CREATE TABLE IF NOT EXISTS `bd_apuesta_total`.`employed` (
   `status` TINYINT NOT NULL,
   `profile_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_employed_profile1_idx` (`profile_id` ASC) VISIBLE,
-  CONSTRAINT `fk_employed_profile1`
     FOREIGN KEY (`profile_id`)
     REFERENCES `bd_apuesta_total`.`profile` (`id`)
     ON DELETE NO ACTION
@@ -89,20 +87,14 @@ CREATE TABLE IF NOT EXISTS `bd_apuesta_total`.`client_pay` (
   `employed_id` INT NOT NULL,
   `channel_attention_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_client_pay_client_idx` (`client_id` ASC) VISIBLE,
-  INDEX `fk_client_pay_employed1_idx` (`employed_id` ASC) VISIBLE,
-  INDEX `fk_client_pay_channel_attention1_idx` (`channel_attention_id` ASC) VISIBLE,
-  CONSTRAINT `fk_client_pay_client`
     FOREIGN KEY (`client_id`)
     REFERENCES `bd_apuesta_total`.`client` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_client_pay_employed1`
     FOREIGN KEY (`employed_id`)
     REFERENCES `bd_apuesta_total`.`employed` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_client_pay_channel_attention1`
     FOREIGN KEY (`channel_attention_id`)
     REFERENCES `bd_apuesta_total`.`channel_attention` (`id`)
     ON DELETE NO ACTION
