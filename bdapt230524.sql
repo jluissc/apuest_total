@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2024 a las 02:07:37
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.1.17
+-- Tiempo de generación: 23-05-2024 a las 20:10:18
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,22 +27,59 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clientPayData` (IN `client_id` INT)   BEGIN
      IF client_id = 0 THEN
-        SELECT cp.id, c.id as id_client, cp.amount, c.player_id, c.name, c.last_pat, c.last_mat, cp.day, cp.hour, ca.channel, e.names, b.bank 
-        FROM client_pay cp
-        LEFT JOIN client c ON c.id = cp.client_id
-        LEFT JOIN channel_attention ca ON ca.id = cp.channel_attention_id
-        LEFT JOIN employed e ON e.id = cp.employed_id
-        LEFT JOIN bank b ON b.id = cp.bank_id;
-    ELSE
-        SELECT cp.id, c.id as id_client, cp.amount, c.player_id, c.name, c.last_pat, c.last_mat, cp.day, cp.hour, ca.channel, e.names, b.bank 
+        SELECT cp.id, c.id as id_client, cp.amount, 
+        c.player_id, c.name, c.last_pat, c.last_mat, 
+        cp.day, cp.hour, ca.channel, e.names, b.bank, pm.id as modify, cp.created_at
         FROM client_pay cp
         LEFT JOIN client c ON c.id = cp.client_id
         LEFT JOIN channel_attention ca ON ca.id = cp.channel_attention_id
         LEFT JOIN employed e ON e.id = cp.employed_id
         LEFT JOIN bank b ON b.id = cp.bank_id
+        LEFT JOIN pay_modify pm ON pm.client_pay_id = cp.id;
+    ELSE
+        SELECT cp.id, c.id as id_client, cp.amount, c.player_id, c.name, c.last_pat, c.last_mat, cp.day, cp.hour, ca.channel, e.names, b.bank, pm.id as modify, cp.created_at
+        FROM client_pay cp
+        LEFT JOIN client c ON c.id = cp.client_id
+        LEFT JOIN channel_attention ca ON ca.id = cp.channel_attention_id
+        LEFT JOIN employed e ON e.id = cp.employed_id
+        LEFT JOIN bank b ON b.id = cp.bank_id
+        LEFT JOIN pay_modify pm ON pm.client_pay_id = cp.id
         WHERE c.id = client_id;
     END IF;
     END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_bank_x_pay` ()   BEGIN
+    SELECT 
+        b.bank, count(*) as quant_pays
+    FROM 
+        client_pay cp
+    LEFT JOIN 
+        bank b ON b.id = cp.bank_id
+        
+    GROUP BY b.bank;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_channel_x_pay` ()   BEGIN
+    SELECT 
+        ca.channel, count(*) as quant_pays
+    FROM 
+        client_pay cp
+    LEFT JOIN 
+        channel_attention ca ON ca.id = cp.channel_attention_id
+        
+    GROUP BY ca.channel;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_list_pay_modify` ()   BEGIN
+    SELECT b.bank, ca.channel, c.name,
+c.last_pat, c.last_mat, cp.amount, cp.day, cp.hour, pm.created_at FROM 
+        pay_modify pm    
+    LEFT JOIN  client_pay cp ON cp.id = pm.client_pay_id
+   	LEFT JOIN client c ON c.id = cp.client_id
+    LEFT JOIN bank b ON b.id = cp.bank_id
+    LEFT JOIN channel_attention ca ON ca.id = cp.channel_attention_id
+        ;
+END$$
 
 DELIMITER ;
 
@@ -63,8 +100,8 @@ CREATE TABLE `bank` (
 --
 
 INSERT INTO `bank` (`id`, `bank`, `flag`) VALUES
-(1, 'INTERBANK', ''),
-(2, 'BCP', '');
+(1, 'INTERBANK', '1'),
+(2, 'BCP', '1');
 
 -- --------------------------------------------------------
 
@@ -132,8 +169,30 @@ CREATE TABLE `client_pay` (
   `flag` tinyint(4) NOT NULL,
   `employed_id` int(11) NOT NULL,
   `channel_attention_id` int(11) NOT NULL,
-  `bank_id` int(11) NOT NULL
+  `bank_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `client_pay`
+--
+
+INSERT INTO `client_pay` (`id`, `client_id`, `amount`, `day`, `hour`, `url_img`, `flag`, `employed_id`, `channel_attention_id`, `bank_id`, `created_at`, `updated_at`) VALUES
+(5, 1, 150.00, '2023-10-10', '10:00:00', 'EVEDENCIA_1_1716474844.jpg', 1, 1, 2, 1, NULL, NULL),
+(6, 2, 20.00, '2024-03-15', '15:00:00', 'EVEDENCIA_2_1716476065.jpg', 1, 1, 3, 2, '2024-05-23 14:54:25', '2024-05-23 15:43:50'),
+(7, 1, 190.00, '2023-11-11', '11:00:00', 'EVEDENCIA_1_1716478290.jpg', 1, 1, 3, 2, '2024-05-23 15:31:30', '2024-05-23 15:34:35'),
+(8, 2, 25.00, '2023-05-11', '17:00:00', 'EVEDENCIA_2_1716483189.jpg', 1, 1, 3, 1, '2024-05-23 16:53:10', '2024-05-23 16:53:10'),
+(9, 1, 150.00, '2024-04-21', '11:00:00', 'EVEDENCIA_1_1716484112.jpg', 1, 1, 2, 1, '2024-05-23 17:08:32', '2024-05-23 17:08:32'),
+(10, 2, 14.00, '2023-11-11', '11:00:00', 'EVEDENCIA_2_1716486410.png', 1, 1, 5, 2, '2024-05-23 17:46:50', '2024-05-23 17:46:50'),
+(11, 1, 111.00, '2023-11-11', '11:08:00', 'EVEDENCIA_1_1716486497.jpg', 1, 1, 1, 1, '2024-05-23 17:48:17', '2024-05-23 17:49:06'),
+(12, 2, 150.00, '2024-05-12', '12:40:00', 'EVEDENCIA_2_1716486600.jpg', 1, 1, 4, 2, '2024-05-23 17:50:00', '2024-05-23 17:50:00'),
+(13, 1, 200.00, '2024-03-12', '12:50:00', 'EVEDENCIA_1_1716486885.jpg', 1, 1, 4, 1, '2024-05-23 17:54:45', '2024-05-23 17:54:45'),
+(14, 2, 111.00, '2023-01-11', '11:11:00', 'EVEDENCIA_2_1716487047.jpg', 1, 1, 1, 2, '2024-05-23 17:57:27', '2024-05-23 17:57:27'),
+(15, 2, 150.00, '2024-11-16', '11:11:00', 'EVEDENCIA_2_1716487206.jpg', 1, 1, 2, 1, '2024-05-23 18:00:06', '2024-05-23 18:00:06'),
+(16, 2, 150.00, '2024-11-16', '11:11:00', 'EVEDENCIA_2_1716487216.jpg', 1, 1, 2, 1, '2024-05-23 18:00:16', '2024-05-23 18:00:16'),
+(17, 2, 150.00, '2024-11-16', '11:11:00', 'EVEDENCIA_2_1716487239.jpg', 1, 1, 2, 1, '2024-05-23 18:00:40', '2024-05-23 18:00:40'),
+(18, 1, 90.00, '2023-07-15', '11:01:00', 'EVEDENCIA_1_1716487291.jpg', 1, 1, 3, 1, '2024-05-23 18:01:31', '2024-05-23 18:05:20');
 
 -- --------------------------------------------------------
 
@@ -154,6 +213,15 @@ CREATE TABLE `client_pay_log` (
   `bank_id` int(11) DEFAULT NULL,
   `type_log` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `client_pay_log`
+--
+
+INSERT INTO `client_pay_log` (`id`, `client_id`, `amount`, `day`, `hour`, `url_img`, `employed_id`, `channel_attention_id`, `flag`, `bank_id`, `type_log`) VALUES
+(1, 2, 150.00, '2024-11-16', '11:11:00', 'EVEDENCIA_2_1716487239.jpg', 1, 2, 1, 1, NULL),
+(2, 1, 100.00, '2023-07-15', '11:01:00', 'EVEDENCIA_1_1716487291.jpg', 1, 3, 1, 1, 'CREATE'),
+(3, 1, 100.00, '2023-07-15', '11:01:00', 'EVEDENCIA_1_1716487291.jpg', 1, 3, 1, 1, 'UPDATE');
 
 -- --------------------------------------------------------
 
@@ -192,6 +260,14 @@ CREATE TABLE `modification_type` (
   `flag` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `modification_type`
+--
+
+INSERT INTO `modification_type` (`id`, `modification_type`, `flag`) VALUES
+(1, 'ERROR HUMANO', 1),
+(3, 'ERROR DE SISTEMA', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -205,6 +281,20 @@ CREATE TABLE `pay_modify` (
   `client_pay_id` int(11) NOT NULL,
   `modification_type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pay_modify`
+--
+
+INSERT INTO `pay_modify` (`id`, `created_at`, `updated_at`, `client_pay_id`, `modification_type_id`) VALUES
+(1, '2024-05-23 10:34:09', '2024-05-23 10:34:09', 7, 1),
+(4, '2024-05-23 10:43:50', '2024-05-23 10:43:50', 6, 3),
+(5, '2024-05-23 12:28:21', '2024-05-23 12:28:21', 9, 1),
+(6, '2024-05-23 12:44:43', '2024-05-23 12:44:43', 5, 3),
+(7, '2024-05-23 12:45:25', '2024-05-23 12:45:25', 8, 3),
+(8, '2024-05-23 12:47:14', '2024-05-23 12:47:14', 10, 1),
+(9, '2024-05-23 12:49:06', '2024-05-23 12:49:06', 11, 1),
+(10, '2024-05-23 13:05:20', '2024-05-23 13:05:20', 18, 1);
 
 -- --------------------------------------------------------
 
@@ -317,13 +407,13 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_pay`
 --
 ALTER TABLE `client_pay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `client_pay_log`
 --
 ALTER TABLE `client_pay_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `employed`
@@ -335,13 +425,13 @@ ALTER TABLE `employed`
 -- AUTO_INCREMENT de la tabla `modification_type`
 --
 ALTER TABLE `modification_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pay_modify`
 --
 ALTER TABLE `pay_modify`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `profile`

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientPay extends Model
+class Bank extends Model
 {
     use HasFactory;
-    protected $table = 'client_pay';
-    public $timestamps = true;
+    protected $table = 'bank';
+    public $timestamps = false;
 
-    protected $guarded = []; 
+    protected $guarded = [];
 }

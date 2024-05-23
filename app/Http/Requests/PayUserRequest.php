@@ -9,7 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class PayUserRequest extends FormRequest
 {
    
-        protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
             'estado' => false,
@@ -26,7 +26,7 @@ class PayUserRequest extends FormRequest
     {
         return [
             'amount' => 'required|numeric',
-            'bank' => 'required|string|max:255',
+            'bank' => 'required|integer',
             'day' => 'required|date',
             'hour' => 'required|date_format:H:i',
             'imagen' => 'required|mimes:pdf,png,jpg|max:4096', // máximo 4MB
@@ -41,7 +41,7 @@ class PayUserRequest extends FormRequest
             'amount.required' => 'Monto necesario',
             'amount.numeric' => 'Monto invalido',
             'bank.required' => 'Nombre de banco faltante',
-            'bank.max' => 'Nombre de banco excede caracteres de 255',
+            'bank.integer' => 'Banco id incorrecto',
             'day.required' => 'Día necesario',
             'day.date' => 'Día incorrecto',
             'hour.required' => 'Hora requerido',

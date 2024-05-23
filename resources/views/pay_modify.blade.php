@@ -1,15 +1,13 @@
+
 @extends('app')
 
 @section('title', 'Inicio')
 
 @section('content')
-    <div class="container mx-auto p-4">
-        <a href="{{ route('deposito.create') }}"
-            class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Nuevo registro de
-            depósito</a>
 
+    <div class="container mx-auto p-4">
         <h1 class="text-center text-4xl font-bold text-gray-900 dark:text-white mb-8">
-            Lista de depositos
+            Lista de depositos modificados
         </h1>
 
 
@@ -36,16 +34,7 @@
                             Canal de atención
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Ver doc
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Atentido por 
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                           Fec. Registro
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Acciones
+                        Fecha Modificado
                         </th>
                     </tr>
                 </thead>
@@ -53,11 +42,7 @@
                     @foreach ($data as $pay)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="px-6 py-4">
-                                <a href="{{ route('cliente.show', ['cliente' => $pay->id_client]) }}" target="_blank" rel="noopener noreferrer" class="hover:underline">
-                                    {{ $pay->name.' '.$pay->last_pat.' '. $pay->last_mat}}
-                                </a>
-                                
-                                
+                                {{ $pay->name.' '.$pay->last_pat.' '. $pay->last_mat}}                                
                             </td>
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -77,25 +62,7 @@
                                 {{ $pay->channel }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('deposito.show', ['deposito'=>$pay->id_client]) }}" target="_blank" rel="noopener noreferrer">
-                                    Ver Doc
-                                </a>
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $pay->names }}
-                            </td>
-                            <td class="px-6 py-4">
                                 {{ $pay->created_at }}
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($pay->modify > 0 )
-                                    ya se edito
-                                @else
-                                    <a href="{{ route('deposito.edit', ['deposito'=>$pay->id]) }}" target="_blank" rel="noopener noreferrer">
-                                        Editar Pago
-                                    </a>
-                                @endif
-                                
                             </td>
                         </tr>                        
                     @endforeach

@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de clientes</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+@section('title', 'Inicio')
 
-<body class="bg-gray-100 dark:bg-gray-900">
+@section('content')
     <div class="container mx-auto p-4">
         {{--  <a href="{{ route('depositar.create') }}"
             class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Nuevo registro de
@@ -62,8 +56,6 @@
         </div>
 
     </div>
+@endsection
 
 
-</body>
-
-</html>

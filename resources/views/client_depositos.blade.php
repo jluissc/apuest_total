@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de clientes</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+@extends('app')
 
-<body class="bg-gray-100 dark:bg-gray-900">
+@section('title', 'Inicio')
+
+@section('content')
     <div class="container mx-auto p-4">
 
         <h1 class="text-center text-4xl font-bold text-gray-900 dark:text-white mb-8">
@@ -85,7 +80,5 @@
 
     </div>
 
+@endsection
 
-</body>
-
-</html>
